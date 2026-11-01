@@ -1,0 +1,25 @@
+# Dependencies & environments
+node_modules
+.next
+out
+dist
+.venv
+venv
+
+# OS & Environment
+.DS_Store
+*.log
+.env
+.env*.local
+tsconfig.tsbuildinfo
+
+# Python & Jupyter
+__pycache__/
+*.py[cod]
+*$py.class
+.ipynb_checkpoints
+
+# Large datasets & archive (avoids GitHub 100MB file limit)
+data/
+_archive/
+catboost_info/

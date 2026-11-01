@@ -1,0 +1,25 @@
+# Core data science & manipulation
+numpy>=1.26.0
+pandas>=2.2.0
+scipy>=1.12.0
+
+# Machine Learning & Imbalance Handling
+scikit-learn>=1.4.0
+imbalanced-learn>=0.12.0
+xgboost>=2.0.0
+catboost>=1.2.0
+
+# Explainable AI & Visualization
+shap>=0.45.0
+matplotlib>=3.8.0
+seaborn>=0.13.0
+
+# Jupyter Notebook & Kernel support
+ipykernel>=6.29.0
+nbformat>=5.9.0
+
+# Serving API (FastAPI backend)
+fastapi>=0.110.0
+uvicorn>=0.28.0
+pydantic>=2.6.0
+
