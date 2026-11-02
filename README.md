@@ -1,127 +1,553 @@
-# Sentinel: An Explainable and Imbalance-Aware Machine Learning Framework for UPI Fraud Detection
+<div align="center">
 
-Sentinel is a production-grade fraud intelligence framework designed to detect, evaluate, and explain fraud in instant push-payment networks (such as India's Unified Payments Interface — UPI). Built on a dataset of **6,362,620 transactions**, Sentinel pairs a high-performance **XGBoost ensemble** with **exact polynomial-time TreeSHAP**, completing risk inference and mathematical attribution in **0.024 milliseconds** (~42,134 transactions/sec).
+<img src="docs/iris-LOGO.png" alt="IRIS Logo" width="180"/>
+
+# IRIS
+
+### Your Personal Assistant
+
+**An intelligent interactive AI system designed to understand, respond, and interact through text and voice.**
+
+<br>
+
+<img src="docs/screenshots/iris-idle-dashboard.png" alt="IRIS Dashboard" width="100%"/>
+
+</div>
+
+
+## ✨ About IRIS
+
+**IRIS** is a personal AI assistant built as a full-stack intelligent system, combining a modern **React frontend**, **Python FastAPI backend**, **MySQL-backed memory**, **voice interaction**, and a **machine learning-based emotion layer** into a unified experience.
+
+The idea behind IRIS is simple:
+
+> **Build an assistant that doesn't just understand what the user says, but also considers the emotional context behind it.**
+
+Phase 2 takes IRIS from a primarily backend-oriented assistant to a connected full-stack application where the **frontend, backend, memory, AI/ML components, command routing, emotion analysis, and voice engine** work together.
+---
+## 🚀 Phase 2 — What Changed?
+
+Phase 2 focuses on transforming IRIS into a complete **full-stack interactive assistant** by connecting the core assistant logic with a dedicated web interface and supporting services.
+
+Key improvements include:
+
+- 🌐 **React-based frontend** — introduced a dedicated interactive interface for communicating with IRIS.
+- ⚡ **FastAPI backend** — established a structured API layer between the frontend and assistant logic.
+- 🧩 **Service-based architecture** — connected the frontend to the existing `IrisService` and `Iris.process_command()` workflow.
+- 🗄️ **MySQL integration** — connected persistent memory and identity data with the assistant.
+- 🎭 **Machine learning emotion layer** — integrated the emotion classification model into the assistant's processing pipeline.
+- 🎙️ **Voice integration** — connected speech-to-text and text-to-speech capabilities with the new interface.
+- 📡 **Live system awareness** — added dynamic status information for backend, database, and voice components.
+- 🖥️ **Interactive visual states** — introduced dedicated UI states for listening, speaking, startup, and system availability.
+
+Together, these changes establish the foundation for IRIS as a connected, interactive personal assistant rather than a standalone backend application.
 
 ---
 
-## 1. Key Performance Highlights & Benchmark Results
+## 🧠 What Makes IRIS Different?
 
-Sentinel was systematically benchmarked against 5 classifiers across 41,643 strictly held-out future transactions (Notebooks 01–04):
+IRIS is designed to go beyond traditional command-based assistants by combining **AI/ML, emotional awareness, memory, voice interaction, and a real-time interface** into a single system.
 
-| Metric | XGBoost (Sentinel Active) | CatBoost | Random Forest | Decision Tree | Logistic Regression |
-| :--- | :---: | :---: | :---: | :---: | :---: |
-| **PR-AUC (Primary)** | **0.9981** | 0.9974 | 0.9972 | 0.8841 | 0.7230 |
-| **ROC-AUC** | **0.9998** | 0.9997 | 0.9994 | 0.9421 | 0.8912 |
-| **Fraud Recall** | **99.70%** (1,638 / 1,643) | 99.63% | 99.51% | 88.45% | 78.20% |
-| **False Alarms (FPR)** | **5 in 40,000** (0.0125%) | 8 in 40,000 | 6 in 40,000 | 142 in 40,000 | 812 in 40,000 |
-| **Inference Latency** | **4.6 µs** (0.0046 ms) | 12.1 µs | 28.4 µs | 1.8 µs | 0.9 µs |
-| **XAI (TreeSHAP) Latency** | **19.1 µs** (0.0191 ms) | 48.2 µs | 114.0 µs | 8.2 µs | N/A |
-| **Total Pipeline Cycle** | **0.024 ms** | 0.060 ms | 0.142 ms | 0.010 ms | — |
+Its capabilities include:
 
----
+- 🎭 **Emotion-aware AI** — incorporates an emotion classification model into the assistant's processing pipeline using machine learning, giving IRIS an emotionally-aware layer of interaction.
+- 🗄️ **Persistent memory** — uses MySQL to store and retrieve user-related information.
+- 💬 **Natural text interaction** — communicate with IRIS through the web interface.
+- 🎙️ **Speech-to-text** — interact with IRIS using voice input.
+- 🔊 **Text-to-speech** — IRIS can respond through voice.
+- 🧩 **Command processing & routing** — routes requests through the appropriate assistant services.
+- 📊 **Live system awareness** — the interface reflects the operational state of the backend, database, and voice system.
+- 🖥️ **Interactive real-time UI** — the frontend visually reflects what IRIS is currently doing.
 
-## 2. Research Questions (RQ1–RQ6) Answered
-
-1. **RQ1 (Model Benchmark):** XGBoost decisively outperformed linear models and matched Random Forest at 2x lower computational latency.
-2. **RQ2 (Feature Engineering):** 12 engineered behavioral and ledger features (`error_orig`, `orig_emptied`, night-window flags) increased fraud recall by **+17.5%** and PR-AUC from 0.9683 to 0.9987 (+3.04%).
-3. **RQ3 (Imbalance Mitigation):** Class Weighting (`scale_pos_weight = 24.3`) matched SMOTE oversampling (0.9981 PR-AUC) with zero synthetic interpolation artifacts and 4x faster training.
-4. **RQ4 (Temporal Generalisation):** Walk-forward temporal train/test split (training on steps 1–550, testing on future steps 551–743) maintained **99.95% recall**, proving zero temporal leakage.
-5. **RQ5 (Individual Explainability):** Dual-layer XAI delivers user-friendly plain-English guidance for consumers alongside exact mathematical log-odds waterfall attributions for compliance auditors.
-6. **RQ6 (Computational Overhead):** Raw inference takes 4.6 µs; TreeSHAP takes 19.1 µs. The total cycle is **0.024 ms**, which easily satisfies NPCI's sub-second switch SLAs.
+The combination of these components forms the foundation for a more **personal, contextual, and emotionally aware assistant**.
 
 ---
 
-## 3. System Architecture & Tech Stack
+# 🎭 Emotion & Machine Learning
+
+One of the core ideas behind IRIS is that a personal assistant should understand more than just the literal content of a request.
+
+IRIS integrates a **machine learning-based emotion classification component** into its processing pipeline to identify emotional context from user input.
+
+### 🤖 Emotion Classification Model
+
+IRIS incorporates an **emotion classification model** into its processing pipeline using machine learning.
+
+The model analyzes the user's input to identify its associated emotional context, providing IRIS with an additional layer of information beyond the literal content of the request.
+
+This allows the assistant's processing pipeline to consider both:
+
+- **What the user is saying**
+- **The emotional context associated with the input**
+
+The emotion classification component therefore acts as an additional intelligence layer within IRIS, forming the foundation for more emotionally-aware interactions.
+
+The broader interaction flow can be represented as:
 
 ```text
-[ UPI Client / Next.js 16 Web Dashboard ]
-                 │
-                 ▼  (HTTP REST / JSON Payload)
-[ FastAPI High-Speed Async Serving Engine (Port 8000) ]
-                 │
-         ┌───────┴────────────────────────┐
-         ▼                                ▼
-[ 17-Feature Engineering ]        [ XGBoost Inference Engine ]
-• Ledger Invariants (error_orig)  • 500 Boosted Decision Trees
-• Account Drainage (orig_emptied) • Scale Pos Weight = 24.3
-• Circadian Night Windows         • Latency: 4.6 microseconds
-         │                                │
-         └───────┬────────────────────────┘
-                 ▼
-[ Exact TreeSHAP Explainability Layer ]
-• O(TLD²) Polynomial-Time Algorithm
-• Additive Shapley Game Theory Decomposition
-• Latency: 19.1 microseconds
-                 │
-                 ▼  (Total Response: 0.024 ms)
-[ Dual-Layer Output Delivery ]
-• Customer Tier (Plain-English Guidance & Safety Tips)
-• Auditor Tier (Mathematical Waterfall & Forensic Inspector)
+                    User Input
+                        │
+              ┌─────────┴─────────┐
+              ▼                   ▼
+         Command Analysis    Emotion Analysis
+              │                   │
+              └─────────┬─────────┘
+                        ▼
+                 IRIS Processing
+                        │
+                        ▼
+                 Context-Aware
+                    Response
+                        │
+              ┌─────────┴─────────┐
+              ▼                   ▼
+          Text Response       Voice Response
 ```
 
-- **Machine Learning & Backend:** Python 3.11, XGBoost, TreeSHAP, Scikit-Learn, Pandas, NumPy, FastAPI, Uvicorn, Joblib
-- **Frontend Dashboard:** Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS 4, Recharts, Framer Motion, Lucide Icons
+The emotion model provides an additional layer of context that can be used alongside the user's request, memory, and command information.
+
+### Why Emotion Awareness?
+
+Traditional assistants generally focus on:
+
+> **"What did the user ask?"**
+
+IRIS aims to also consider:
+
+> **"What is the user's emotional context while asking it?"**
+
+This creates a foundation for developing interactions that can become more natural, personalized, and context-sensitive over time.
+
+The machine learning component is therefore not treated as an isolated model — it is integrated into the broader assistant architecture.
 
 ---
 
-## 4. Directory Structure
+# 🖥️ The IRIS Interface
+
+The Phase 2 interface was designed around a futuristic, minimal dashboard with the IRIS identity at its center.
+
+The dashboard provides visibility into:
+
+- **Backend status**
+- **Database connection**
+- **Voice engine state**
+- **Current user context**
+- **Activity history**
+- **Conversation state**
+- **Voice interaction state**
+
+### Main Dashboard
+
+<div align="center">
+
+<img src="docs/screenshots/iris-idle-dashboard.png" alt="IRIS Main Dashboard" width="95%"/>
+
+</div>
+
+The central IRIS visualization acts as the identity of the system while the surrounding panels expose the current state of the assistant.
+
+---
+
+# 🎙️ Voice Interaction
+
+Voice interaction is one of the major parts of IRIS Phase 2.
+
+The system supports a complete interaction flow:
 
 ```text
-UPI/
+User Speech
+     ↓
+Speech-to-Text
+     ↓
+Command + Emotion Processing
+     ↓
+Response Generation
+     ↓
+Text-to-Speech
+     ↓
+Spoken Response
+```
+
+### Listening State
+
+<div align="center">
+
+<img src="docs/screenshots/iris-listening-dashboard.png" alt="IRIS Listening State" width="95%"/>
+
+</div>
+
+When the user speaks, IRIS enters its **listening state**, represented by the normal circular sonar visualization. The assistant is actively receiving and processing the user's voice input.
+
+### Speaking State
+
+<div align="center">
+
+<img src="docs/screenshots/iris-speaking-dashboard.png" alt="IRIS Speaking State" width="95%"/>
+
+</div>
+
+When IRIS responds through voice, the interface transitions to the **speaking state**, represented by the wavy, flowing circular sonar visualization. This indicates that IRIS is actively generating its spoken response.
+
+---
+
+# 🚀 Startup Experience
+
+IRIS also includes a dedicated startup experience designed to establish the identity of the assistant before the main interface becomes active.
+
+<div align="center">
+
+<img src="docs/screenshots/iris-startup-dashboard.png" alt="IRIS Startup Experience" width="95%"/>
+
+</div>
+
+The visual design uses flowing light trails, glowing elements, and the IRIS identity to create a consistent futuristic experience across the application.
+
+---
+
+# 📡 System Awareness
+
+A key part of Phase 2 is that the interface is aware of the state of the underlying system.
+
+IRIS can distinguish between states such as:
+
+- Backend online/offline
+- Database connected/disconnected
+- Voice engine ready/unavailable
+
+For example:
+
+<div align="center">
+
+<img src="docs/screenshots/iris-all-system-offline.png" alt="IRIS Offline State" width="95%"/>
+
+</div>
+
+This makes the frontend more than a static interface — it acts as a visual representation of the application's runtime state.
+
+---
+
+# 🏗️ Architecture
+
+IRIS Phase 2 follows a layered full-stack architecture:
+
+```text
+                    ┌─────────────────────┐
+                    │      React UI       │
+                    │      Frontend       │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │      FastAPI        │
+                    │       Backend       │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │    IrisService      │
+                    │    Service Layer    │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │  Iris.process_      │
+                    │     command()       │
+                    └────────┬────────────┘
+                             │
+              ┌──────────────┼──────────────┐
+              ▼              ▼              ▼
+       ┌────────────┐ ┌────────────┐ ┌────────────┐
+       │   MySQL    │ │ Emotion ML │ │   Voice    │
+       │  Memory &  │ │   Model    │ │ STT / TTS  │
+       │  Identity  │ │            │ │            │
+       └────────────┘ └────────────┘ └────────────┘
+```
+
+### 🔄 Request Flow
+
+A typical interaction follows this path:
+
+```text
+User
+  ↓
+React Frontend
+  ↓
+FastAPI API
+  ↓
+IrisService
+  ↓
+Iris.process_command()
+  ↓
+Command + Context Processing
+  ↓
+Emotion / ML Analysis
+  ↓
+Services / Memory
+  ↓
+Response
+  ↓
+Frontend + Voice Output
+```
+
+This separation keeps the presentation layer, API layer, assistant logic, machine learning component, memory system, and supporting services modular and easier to maintain.
+
+---
+
+# ⚙️ Technology Stack
+
+### Frontend
+
+- React
+- Vite
+- JavaScript
+- HTML
+- CSS
+
+### Backend
+
+- Python
+- FastAPI
+- Pydantic
+- Modular service architecture
+
+### Database
+
+- MySQL
+- Persistent memory and identity data
+
+### AI / Machine Learning
+
+- Emotion classification model
+- Python-based ML processing
+- Emotion-aware interaction pipeline
+- Model inference integrated into assistant processing
+
+### Voice
+
+- Speech-to-Text
+- Text-to-Speech
+- Voice interaction state management
+
+---
+
+# 📁 Project Structure
+
+```text
+IRIS-Phase-2/
+│
 ├── backend/
-│   ├── main.py                  # FastAPI server (/api/predict, /api/random-sample, /api/metrics)
-│   └── pipeline.py              # 17-feature extraction, XGBoost inference, and TreeSHAP XAI engine
-├── artifacts/
-│   ├── best_model.joblib        # Serialized XGBoost model (500 trees)
-│   ├── shap_explainer.joblib    # Serialized TreeSHAP explainer
-│   ├── scaler.joblib            # Feature scaling parameters
-│   ├── test_engineered.parquet  # 41,643 strictly held-out test rows
-│   └── model_benchmark_results.json # 5-model benchmark metrics
-├── notebooks/
-│   ├── 01_eda_and_preprocessing.ipynb
-│   ├── 02_feature_engineering_and_imbalance.ipynb
-│   ├── 03_model_training_and_benchmarking.ipynb
-│   └── 04_explainability_and_xai.ipynb
-├── data/
-│   ├── final_engineered_fraud_data.xlsx # Exported evaluation dataset
-│   └── final_engineered_fraud_data.csv
-├── src/
-│   ├── app/                     # Next.js App Router (/analyze, /models, /metrics, /insights)
-│   ├── components/              # Dual-layer XAI, charts, network visualizer, sampler toolbar
-│   └── lib/                     # API client, formatting, type definitions
-├── _archive/                    # Offline generator scripts, CatBoost training logs, and viva defense notes
-├── package.json
+│   ├── api/
+│   │   └── routes/
+│   ├── app_services/
+│   ├── core/
+│   ├── ML/
+│   ├── MySQL/
+│   ├── routing/
+│   ├── schemas/
+│   ├── services/
+│   ├── voice/
+│   ├── iris_cli.py
+│   └── main.py
+│
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   ├── package.json
+│   └── vite.config.js
+│
+├── docs/
+│   ├── screenshots/
+│   │   ├── iris-idle-dashboard.png
+│   │   ├── iris-listening-dashboard.png
+│   │   ├── iris-speaking-dashboard.png
+│   │   ├── iris-startup-dashboard.png
+│   │   └── iris-all-system-offline.png
+│   │
+│   └── iris-logo.png
+│
+├── requirements.txt
+├── .gitignore
 └── README.md
 ```
 
 ---
 
-## 5. Quickstart: Running Sentinel Locally
+# 🔌 Backend API
 
-### Step 1: Start the FastAPI ML Backend
-From the project root:
-```powershell
-# Using activated virtual environment:
-uvicorn backend.main:app --reload
+The Phase 2 backend exposes API endpoints through FastAPI.
 
-# Or directly via venv python:
-.\.venv\Scripts\python.exe -m uvicorn backend.main:app --host 127.0.0.1 --port 8000 --reload
+Core endpoints include:
+
+```text
+GET  /api/health
+POST /api/chat
+POST /api/command
 ```
-The ML API will start at `http://127.0.0.1:8000` (interactive Swagger docs available at `http://127.0.0.1:8000/docs`).
 
-### Step 2: Start the Next.js Frontend Dashboard
-In a separate terminal:
-```powershell
-npm run dev
-```
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+FastAPI also provides interactive API documentation for development and testing.
 
 ---
 
-## 6. Live Dashboard Capabilities
+# 🗄️ Memory & Identity
 
-- **Transaction Risk Analyzer (`/analyze`):** Test transactions using the **`🎲 Random Test Sample`** generator (stratified 50/50 balanced draws from the 41,643 held-out test rows), or test curated scenarios. Accepts standard UPI handles (e.g. `user@okhdfcbank`, `merchant@paytm`) and PaySim IDs.
-- **Dual-Layer XAI Panel:** Interactive TreeSHAP waterfall chart with Risk/Trust filters and dual-tab perspectives (Customer Plain English vs. Auditor Compliance).
-- **Model Comparison Matrix (`/models`):** Full 5-model empirical comparison table, PR-AUC curves, radar charts, and training/inference latency tradeoffs.
-- **Confusion Matrix & KPIs (`/metrics`):** Breakdown of the 41,643 held-out test predictions (TP=1,638, FP=5, TN=39,995, FN=5) with plain-language banking risk explanations.
-- **Research & Literature (`/insights`):** 5 landmark peer-reviewed papers (Vanini, Chang, Raj, Zhou, Lin & Gao), 10 systematic research gaps, and 6 empirical Research Questions.
+IRIS uses **MySQL** as its persistent data layer.
+
+This provides the foundation for storing information that can persist beyond a single interaction and enables more personalized assistant behavior.
+
+The memory layer is separated from the higher-level assistant logic, allowing the system to evolve without tightly coupling memory to the user interface.
+
+---
+
+# 🔗 Putting Everything Together
+
+The different components of IRIS work together as a unified interaction pipeline:
+
+```text
+                   ┌──────────────┐
+                   │     User     │
+                   └──────┬───────┘
+                          │
+                    Text / Voice
+                          │
+                          ▼
+                ┌───────────────────┐
+                │   React Frontend  │
+                └─────────┬─────────┘
+                          │
+                          ▼
+                ┌───────────────────┐
+                │   FastAPI Backend │
+                └─────────┬─────────┘
+                          │
+                          ▼
+                ┌───────────────────┐
+                │    IrisService    │
+                └─────────┬─────────┘
+                          │
+                 ┌────────┴────────┐
+                 ▼                 ▼
+          ┌─────────────┐   ┌─────────────┐
+          │ Command     │   │ Emotion     │
+          │ Processing  │   │ ML Model    │
+          └──────┬──────┘   └──────┬──────┘
+                 │                 │
+                 └────────┬────────┘
+                          ▼
+                ┌───────────────────┐
+                │ Memory / Services │
+                │      MySQL        │
+                └─────────┬─────────┘
+                          │
+                          ▼
+                ┌───────────────────┐
+                │ Response + Voice  │
+                └───────────────────┘
+```
+
+This architecture allows IRIS to combine **what the user says, the emotional context detected by the ML layer, stored information, and available services** before producing a response.
+
+---
+
+# 🛠️ Getting Started
+
+## 1. Clone the repository
+
+```bash
+git clone https://github.com/YOUR-USERNAME/IRIS-Phase-2.git
+cd IRIS-Phase-2
+```
+
+## 2. Backend Setup
+
+Create a Python virtual environment:
+
+```bash
+python -m venv .venv
+```
+
+Activate it on Windows:
+
+```bash
+.venv\Scripts\activate
+```
+
+Install the required Python packages:
+
+```bash
+pip install -r requirements.txt
+```
+
+## 3. Frontend Setup
+
+Navigate to the frontend:
+
+```bash
+cd frontend
+```
+
+Install the dependencies:
+
+```bash
+npm install
+```
+
+## 4. Run IRIS
+
+Start the FastAPI backend and React frontend using the project configuration.
+
+> Configuration such as database credentials, API keys, and other sensitive values should be supplied through environment variables and should never be committed to the repository.
+
+---
+
+# 🔐 Security
+
+Sensitive configuration should never be pushed to GitHub.
+
+Examples include:
+
+- API keys
+- Database credentials
+- Service credentials
+- Private configuration
+- Local virtual environments
+- Node modules
+
+The repository `.gitignore` is configured to keep local development files and sensitive environment data outside version control.
+
+---
+
+# 🔮 Future Development
+
+IRIS is designed as an evolving personal-assistant platform.
+
+Future development can expand into areas such as:
+
+- 🧠 More intelligent contextual memory
+- 🎭 More advanced emotion understanding
+- 💬 Improved conversational intelligence
+- 🎙️ More natural voice interaction
+- 🤖 Improved machine learning capabilities
+- 🌐 Additional service integrations
+- ⚡ Expanded command capabilities
+- 👤 Smarter personalization
+- 🖥️ Further UI and visualization improvements
+
+---
+
+# 👨‍💻 Project
+
+<div align="center">
+
+<img src="docs/screenshots/iris-center.png" alt="IRIS — Your Intelligent Assistant" width="280"/>
+
+<br>
+
+**Listen. Understand. Respond.**
+
+Built with Python, React, FastAPI, MySQL, AI/ML, APIs, voice technology, and a lot of late-night debugging. 🚀
+
+<br>
+
+**Made by Mandeep Singh**
+
+</div>
